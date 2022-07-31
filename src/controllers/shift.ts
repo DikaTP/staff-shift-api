@@ -4,7 +4,7 @@ import { badRequest, dataNotFound, internalError } from "../services/helper";
 
 const getShifts = (_request: Request, response: Response) => {
     shiftModel.getShifts().then((shifts) => {
-        return response.json({shifts})
+        return response.json(shifts)
     }).catch(err => internalError(response, err))
 }
 

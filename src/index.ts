@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express, {Request, Response} from 'express'
+import cors from 'cors'
 import bodyParser from 'body-parser'
 import { useRoutes } from './routes'
 import { initData } from './services/database'
@@ -9,6 +10,8 @@ import { initData } from './services/database'
 const app =  express()
 const HTTP_PORT = process.env.HTTP_PORT || '8080'
 app.use(bodyParser.json());
+
+app.use(cors())
 
 initData()
 useRoutes(app)
