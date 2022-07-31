@@ -19,4 +19,9 @@ To start the server, run the following
 npm run start
 ```
 
-Open [http://localhost:8080](http://localhost:8080) and take a look around.
+# Endpoints (If run in local)
+- GET http://localhost:8080/v1/api/shift
+- GET http://localhost:8080/v1/api/shift/{id}
+- POST http://localhost:8080/v1/api/shift
+- PUT http://localhost:8080/v1/api/shift/{id}
+- DELETE http://localhost:8080/v1/api/shift/{id}
