@@ -16,7 +16,7 @@ npm install
 To start the server, run the following
 
 ```bash
-npm run start
+npm start
 ```
 
 # Endpoints (If run in local)
