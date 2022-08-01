@@ -46,13 +46,13 @@ export const initData = () => {
             console.log('Table already created')
         }else{
             const insert = db.prepare('INSERT INTO shifts (name, date, start_time, end_time) VALUES (?,?,?,?)')
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 30; i++) {
                 let name = i % 2 == 0 ? "Morning Shift" : "Night Shift" 
                 let date = new Date()
                 date.setDate(date.getDate() + (i/2))
                 let dateString = getDateString(date)
-                let start_time = '07:00:00'
-                let end_time = '16:00:00'
+                let start_time = i % 2 == 0 ? '07:00:00' : '15:00:00'
+                let end_time = i % 2 == 0 ? '15:00:00' : '23:00:00'
                 insert.run([name, dateString, start_time, end_time])
             }
             insert.finalize()

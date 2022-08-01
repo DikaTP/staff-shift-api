@@ -2,9 +2,28 @@ import { Request, Response } from "express";
 import { Shift, shiftModel} from "../models/shifts";
 import { badRequest, dataNotFound, internalError } from "../services/helper";
 
-const getShifts = (_request: Request, response: Response) => {
-    shiftModel.getShifts().then((shifts) => {
-        return response.json(shifts)
+const getShifts = (request: Request, response: Response) => {
+    let page: any = request.query.page ?? 1
+    let limit: any = request.query.limit ?? 10
+    {
+        if( isNaN(+page) || isNaN(+limit)) {
+            return badRequest(response, 'invalid query string value!')
+        }
+    }
+    page = parseInt(page)
+    limit = parseInt(limit)
+    let offset = (page - 1) * limit
+    shiftModel.getShifts(offset, limit).then((shifts) => {
+        shiftModel.getTotal().then((total) => {
+            return response.json({
+                shifts: shifts,
+                page: page,
+                limit: limit,
+                total: total,
+                total_page: Math.ceil(total / limit),
+                total_display: shifts.length
+            })
+        }).catch(err => internalError(response, err))
     }).catch(err => internalError(response, err))
 }
 

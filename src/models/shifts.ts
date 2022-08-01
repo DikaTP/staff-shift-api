@@ -9,9 +9,14 @@ export type Shift = {
     is_deleted: string
 }
 
-const getShifts = async () => {
-    let shifts = await query('SELECT * FROM shifts')
+const getShifts = async (offset :any, limit :any) => {
+    let shifts = await query(`SELECT * FROM shifts where (is_deleted IS NULL or is_deleted != 'true') ORDER BY date ASC, start_time ASC LIMIT ?, ?`, [offset, limit])
     return shifts as Shift[]
+}
+
+const getTotal = async () => {
+    let total = await selectFirst(`SELECT count(*) as total FROM shifts  where (is_deleted IS NULL or is_deleted != 'true')`)
+    return total['total']
 }
 
 const getShift = async (id: number) => {
@@ -49,6 +54,7 @@ const deleteShift = async (id: number) => {
 
 export const shiftModel = {
     getShifts,
+    getTotal,
     getShift,
     insertShift,
     updateShift,
