@@ -9,9 +9,10 @@ import { initData } from './services/database'
 
 const app =  express()
 const HTTP_PORT = process.env.HTTP_PORT || '8080'
-app.use(bodyParser.json());
 
 app.use(cors())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }))
 
 initData()
 useRoutes(app)

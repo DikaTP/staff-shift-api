@@ -39,7 +39,7 @@ const getShift = (request: Request, response: Response) => {
     }).catch(err => internalError(response, err))
 }
 
-const insertShift = (request: Request, response: Response) => {
+const insertShift = async (request: Request, response: Response) => {
     {
         const shift = request.body
         if(!shift) return badRequest(response, 'Invalid')
@@ -48,6 +48,8 @@ const insertShift = (request: Request, response: Response) => {
         if(!shift.start_time) return badRequest(response, 'start time cannot be empty!')
         if(!shift.end_time) return badRequest(response, 'end time cannot be empty!')
 
+        const shiftExist = await shiftModel.getExistingShift(shift.date, shift.start_time, shift.end_time, 0)
+        if(shiftExist) return badRequest(response, 'shift\'s start time or end time clashing with existing shift!')
     }
 
     const shift = request.body as Shift
@@ -70,6 +72,9 @@ const updateShift = async (request: Request, response: Response) => {
 
         const shiftToUpdate = await shiftModel.getShift(id)
         if(!shiftToUpdate) return dataNotFound(response, 'data not found.')
+
+        const shiftExist = await shiftModel.getExistingShift(shift.date, shift.start_time, shift.end_time, 0)
+        if(shiftExist) return badRequest(response, 'shift\'s start time or end time clashing with existing shift!')
     }
 
     const shift = request.body as Shift

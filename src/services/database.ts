@@ -51,8 +51,8 @@ export const initData = () => {
                 let date = new Date()
                 date.setDate(date.getDate() + (i/2))
                 let dateString = getDateString(date)
-                let start_time = i % 2 == 0 ? '07:00:00' : '15:00:00'
-                let end_time = i % 2 == 0 ? '15:00:00' : '23:00:00'
+                let start_time = i % 2 == 0 ? '07:00' : '15:00'
+                let end_time = i % 2 == 0 ? '15:00' : '23:00'
                 insert.run([name, dateString, start_time, end_time])
             }
             insert.finalize()
